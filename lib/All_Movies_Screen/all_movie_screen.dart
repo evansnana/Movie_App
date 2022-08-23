@@ -3,9 +3,24 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:movie_app/All_Movies_Screen/movie_details_screens.dart';
+import 'package:movie_app/Network/all_movies_network.dart';
 
-class AllMoviesScreen extends StatelessWidget {
+class AllMoviesScreen extends StatefulWidget {
   const AllMoviesScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AllMoviesScreen> createState() => _AllMoviesScreenState();
+}
+
+class _AllMoviesScreenState extends State<AllMoviesScreen> {
+  // ignore: prefer_final_fields
+  AllMoviesNetwork _allMoviesNetwork = AllMoviesNetwork();
+
+  @override
+  void initState() {
+    _allMoviesNetwork.getAllMovies();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +33,11 @@ class AllMoviesScreen extends StatelessWidget {
             return GestureDetector(
               child: MovieCard(),
               onTap: () {
-               Navigator.push(context, MaterialPageRoute(builder: ( context){
-                return MovieDetailsScreen(currentIndex: index,);
-               }
-               ));
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return MovieDetailsScreen(
+                    currentIndex: index,
+                  );
+                }));
               },
             );
           }),
